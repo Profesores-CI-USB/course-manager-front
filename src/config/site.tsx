@@ -1,4 +1,13 @@
-import { Gauge, type LucideIcon, MessagesSquare } from "lucide-react";
+import {
+  BookOpen,
+  ClipboardList,
+  Gauge,
+  GraduationCap,
+  type LucideIcon,
+  NotepadText,
+  ScrollText,
+  Users,
+} from "lucide-react";
 
 export type SiteConfig = typeof siteConfig;
 export type Navigation = {
@@ -8,8 +17,8 @@ export type Navigation = {
 };
 
 export const siteConfig = {
-  title: "VisActor Next Template",
-  description: "Template for VisActor and Next.js",
+  title: "Course Manager",
+  description: "Gestor académico de cursos, estudiantes y evaluaciones",
 };
 
 export const navigations: Navigation[] = [
@@ -19,8 +28,33 @@ export const navigations: Navigation[] = [
     href: "/",
   },
   {
-    icon: MessagesSquare,
-    name: "Ticket",
-    href: "/ticket",
+    icon: BookOpen,
+    name: "Materias",
+    href: "/subjects",
+  },
+  {
+    icon: ScrollText,
+    name: "Cursos",
+    href: "/courses",
+  },
+  {
+    icon: Users,
+    name: "Estudiantes",
+    href: "/students",
+  },
+  {
+    icon: ClipboardList,
+    name: "Evaluaciones",
+    href: "/evaluations",
+  },
+  {
+    icon: GraduationCap,
+    name: "Inscripciones",
+    href: "/enrollments",
+  },
+  {
+    icon: NotepadText,
+    name: "Calificaciones",
+    href: "/grades",
   },
 ];

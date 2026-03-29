@@ -6,10 +6,12 @@ import {
   TicketByChannels,
 } from "@/components/chart-blocks";
 import Container from "@/components/container";
+import { PageHeader } from "@/components/page-header";
 
 export default function Home() {
   return (
     <div>
+      <PageHeader title="Dashboard" />
       <Metrics />
       <div className="grid grid-cols-1 divide-y border-b border-border laptop:grid-cols-3 laptop:divide-x laptop:divide-y-0 laptop:divide-border">
         <Container className="py-4 laptop:col-span-2">

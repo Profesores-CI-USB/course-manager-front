@@ -34,3 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Envs
+.env
+.env.local
+.env.development.local
+
+# Claude/Anthropic
+.claude

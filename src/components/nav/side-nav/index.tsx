@@ -2,12 +2,17 @@
 
 import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { useState } from "react";
+import type { UserOut } from "@/domain/entities/auth";
 import { cn } from "@/lib/utils";
 import Navigation from "./components/navigation";
 import User from "./components/user";
 import VisActor from "./components/visactor";
 
-export default function SideNav() {
+interface SideNavProps {
+  user: UserOut | null;
+}
+
+export default function SideNav({ user }: SideNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -33,7 +38,7 @@ export default function SideNav() {
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <User />
+        <User user={user} />
         <Navigation />
         <VisActor />
       </aside>
