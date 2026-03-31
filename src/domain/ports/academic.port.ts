@@ -1,45 +1,50 @@
 import type {
   CourseCreate,
+  CourseListParams,
   CourseOut,
   CourseUpdate,
   EnrollmentCreate,
+  EnrollmentListParams,
   EnrollmentOut,
   EnrollmentUpdate,
   EvaluationCreate,
   EvaluationGradeCreate,
   EvaluationGradeOut,
   EvaluationGradeUpdate,
+  EvaluationListParams,
   EvaluationOut,
   EvaluationUpdate,
-  ListParams,
+  GradeListParams,
   StudentCreate,
+  StudentListParams,
   StudentOut,
   StudentUpdate,
   SubjectCreate,
+  SubjectListParams,
   SubjectOut,
   SubjectUpdate,
 } from "@/domain/entities/academic";
 
 export interface ISubjectRepository {
-  list(params: ListParams, token: string): Promise<SubjectOut[]>;
+  list(params: SubjectListParams, token: string): Promise<SubjectOut[]>;
   create(data: SubjectCreate, token: string): Promise<SubjectOut>;
   update(id: string, data: SubjectUpdate, token: string): Promise<SubjectOut>;
 }
 
 export interface ICourseRepository {
-  list(params: ListParams, token: string): Promise<CourseOut[]>;
+  list(params: CourseListParams, token: string): Promise<CourseOut[]>;
   create(data: CourseCreate, token: string): Promise<CourseOut>;
   update(id: string, data: CourseUpdate, token: string): Promise<CourseOut>;
 }
 
 export interface IStudentRepository {
-  list(params: ListParams, token: string): Promise<StudentOut[]>;
+  list(params: StudentListParams, token: string): Promise<StudentOut[]>;
   create(data: StudentCreate, token: string): Promise<StudentOut>;
   update(id: string, data: StudentUpdate, token: string): Promise<StudentOut>;
 }
 
 export interface IEvaluationRepository {
-  list(params: ListParams, token: string): Promise<EvaluationOut[]>;
+  list(params: EvaluationListParams, token: string): Promise<EvaluationOut[]>;
   create(data: EvaluationCreate, token: string): Promise<EvaluationOut>;
   update(
     id: string,
@@ -49,7 +54,7 @@ export interface IEvaluationRepository {
 }
 
 export interface IEnrollmentRepository {
-  list(params: ListParams, token: string): Promise<EnrollmentOut[]>;
+  list(params: EnrollmentListParams, token: string): Promise<EnrollmentOut[]>;
   create(data: EnrollmentCreate, token: string): Promise<EnrollmentOut>;
   update(
     id: string,
@@ -64,7 +69,7 @@ export interface IEnrollmentRepository {
 }
 
 export interface IEvaluationGradeRepository {
-  list(params: ListParams, token: string): Promise<EvaluationGradeOut[]>;
+  list(params: GradeListParams, token: string): Promise<EvaluationGradeOut[]>;
   create(
     data: EvaluationGradeCreate,
     token: string,

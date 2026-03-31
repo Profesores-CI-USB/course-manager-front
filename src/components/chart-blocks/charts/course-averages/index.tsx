@@ -13,6 +13,7 @@ import { ChartTypeToggle } from "../../components/chart-type-toggle";
 import ChartTitle from "../../components/chart-title";
 
 type ChartType = "bar" | "line" | "area";
+type CourseAvgDatum = { course: string; avg: number; enrolled: number };
 
 const CHART_OPTIONS = [
   { value: "bar" as const, icon: BarChart2, label: "Barras" },
@@ -64,12 +65,12 @@ function BarSpec(courses: CourseStats[]): IBarChartSpec {
       mark: {
         content: [
           {
-            key: (d) => (d as { course: string }).course,
-            value: (d) => `Promedio: ${(d as { avg: number }).avg}`,
+            key: (d) => (d as CourseAvgDatum).course,
+            value: (d) => `Promedio: ${(d as CourseAvgDatum).avg}`,
           },
           {
             key: () => "Inscritos",
-            value: (d) => String((d as { enrolled: number }).enrolled),
+            value: (d) => String((d as CourseAvgDatum).enrolled),
           },
         ],
       },
@@ -98,12 +99,12 @@ function LineSpec(courses: CourseStats[]): ILineChartSpec {
       mark: {
         content: [
           {
-            key: (d) => (d as { course: string }).course,
-            value: (d) => `Promedio: ${(d as { avg: number }).avg}`,
+            key: (d) => (d as CourseAvgDatum).course,
+            value: (d) => `Promedio: ${(d as CourseAvgDatum).avg}`,
           },
           {
             key: () => "Inscritos",
-            value: (d) => String((d as { enrolled: number }).enrolled),
+            value: (d) => String((d as CourseAvgDatum).enrolled),
           },
         ],
       },
@@ -130,12 +131,12 @@ function AreaSpec(courses: CourseStats[]): IAreaChartSpec {
       mark: {
         content: [
           {
-            key: (d) => (d as { course: string }).course,
-            value: (d) => `Promedio: ${(d as { avg: number }).avg}`,
+            key: (d) => (d as CourseAvgDatum).course,
+            value: (d) => `Promedio: ${(d as CourseAvgDatum).avg}`,
           },
           {
             key: () => "Inscritos",
-            value: (d) => String((d as { enrolled: number }).enrolled),
+            value: (d) => String((d as CourseAvgDatum).enrolled),
           },
         ],
       },

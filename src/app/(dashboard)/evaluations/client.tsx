@@ -155,6 +155,7 @@ export default function EvaluationsClient({ initialData, courses }: Props) {
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => openEdit(ev)}
+                      aria-label={`Editar evaluación ${ev.description}`}
                       className="rounded p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                     >
                       <Pencil size={14} />

@@ -1,14 +1,15 @@
-import { UserRepository } from "@/infrastructure/repositories/auth.repository";
+import { redirect } from "next/navigation";
+import { userRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
 import ProfileClient from "./client";
 
 export default async function ProfilePage() {
   const token = await getAccessToken();
-  const repo = new UserRepository();
+  if (!token) redirect("/login");
 
   const [user, smtp] = await Promise.all([
-    repo.getMe(token!),
-    repo.getSmtp(token!).catch(() => null),
+    userRepo.getMe(token),
+    userRepo.getSmtp(token).catch(() => null),
   ]);
 
   return <ProfileClient user={user} smtp={smtp} />;

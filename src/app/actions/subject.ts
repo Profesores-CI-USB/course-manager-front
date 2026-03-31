@@ -2,11 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import type { SubjectCreate, SubjectOut, SubjectUpdate } from "@/domain/entities/academic";
-import { SubjectRepository } from "@/infrastructure/repositories/subject.repository";
+import { subjectRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
+import { toErrorMessage } from "@/lib/utils";
 import type { ActionResult } from "./auth";
-
-const repo = new SubjectRepository();
 
 async function requireToken(): Promise<string> {
   const token = await getAccessToken();
@@ -19,11 +18,11 @@ export async function createSubjectAction(
 ): Promise<ActionResult<SubjectOut>> {
   try {
     const token = await requireToken();
-    const subject = await repo.create(data, token);
+    const subject = await subjectRepo.create(data, token);
     revalidatePath("/subjects");
     return { success: true, data: subject };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -33,10 +32,10 @@ export async function updateSubjectAction(
 ): Promise<ActionResult<SubjectOut>> {
   try {
     const token = await requireToken();
-    const subject = await repo.update(id, data, token);
+    const subject = await subjectRepo.update(id, data, token);
     revalidatePath("/subjects");
     return { success: true, data: subject };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }

@@ -1,19 +1,16 @@
-import { CourseRepository } from "@/infrastructure/repositories/course.repository";
-import { EnrollmentRepository } from "@/infrastructure/repositories/enrollment.repository";
-import { StudentRepository } from "@/infrastructure/repositories/student.repository";
+import { redirect } from "next/navigation";
+import { courseRepo, enrollmentRepo, studentRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
 import EnrollmentsClient from "./client";
 
 export default async function EnrollmentsPage() {
   const token = await getAccessToken();
-  const repo = new EnrollmentRepository();
-  const courseRepo = new CourseRepository();
-  const studentRepo = new StudentRepository();
+  if (!token) redirect("/login");
 
   const [enrollments, courses, students] = await Promise.all([
-    repo.list({ limit: 100 }, token!),
-    courseRepo.list({ limit: 100 }, token!),
-    studentRepo.list({ limit: 100 }, token!),
+    enrollmentRepo.list({ limit: 100 }, token),
+    courseRepo.list({ limit: 100 }, token),
+    studentRepo.list({ limit: 100 }, token),
   ]);
 
   return (

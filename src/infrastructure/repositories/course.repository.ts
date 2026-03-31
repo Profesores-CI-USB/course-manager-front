@@ -1,15 +1,15 @@
 import type {
   CourseCreate,
+  CourseListParams,
   CourseOut,
   CourseUpdate,
-  ListParams,
 } from "@/domain/entities/academic";
 import type { ICourseRepository } from "@/domain/ports/academic.port";
 import { apiClient } from "@/infrastructure/http/api-client";
 
 export class CourseRepository implements ICourseRepository {
-  async list(params: ListParams, token: string): Promise<CourseOut[]> {
-    return apiClient.get<CourseOut[]>("/api/v1/academic/courses", token, params);
+  async list(params: CourseListParams, token: string): Promise<CourseOut[]> {
+    return apiClient.get<CourseOut[]>("/api/v1/academic/courses", token, params as Record<string, string | number | undefined>);
   }
 
   async create(data: CourseCreate, token: string): Promise<CourseOut> {

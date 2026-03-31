@@ -111,5 +111,42 @@ export interface ListParams {
   offset?: number;
   order_by?: string;
   order_dir?: "asc" | "desc";
-  [key: string]: string | number | undefined;
+}
+
+export interface SubjectListParams extends ListParams {
+  code?: string;
+  name?: string;
+}
+
+export interface CourseListParams extends ListParams {
+  subject_id?: string;
+  term?: string;
+  year?: number;
+  professor_id?: string;
+}
+
+export interface StudentListParams extends ListParams {
+  course_id?: string;
+  student_card?: string;
+  email?: string;
+  full_name?: string;
+}
+
+export interface EvaluationListParams extends ListParams {
+  course_id?: string;
+  evaluation_type?: string;
+  due_date_from?: string;
+  due_date_to?: string;
+}
+
+export interface EnrollmentListParams extends ListParams {
+  course_id?: string;
+  student_id?: string;
+}
+
+export interface GradeListParams extends ListParams {
+  course_id?: string;
+  evaluation_id?: string;
+  enrollment_id?: string;
+  student_id?: string;
 }

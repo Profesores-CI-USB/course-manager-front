@@ -13,6 +13,7 @@ import { ChartTypeToggle } from "../../components/chart-type-toggle";
 import ChartTitle from "../../components/chart-title";
 
 type ChartType = "bar" | "pie" | "radar";
+type GradeDatum = { grade: string; count: number; color: string };
 
 const GRADE_LABELS: Record<keyof GradeDistribution, string> = {
   five: "5 (85-100)",
@@ -58,7 +59,7 @@ function BarSpec(distribution: GradeDistribution): IBarChartSpec {
     bar: {
       style: {
         cornerRadius: [6, 6, 0, 0],
-        fill: (datum) => (datum as { color: string }).color,
+        fill: (datum) => (datum as GradeDatum).color,
       },
     },
     axes: [
@@ -70,8 +71,8 @@ function BarSpec(distribution: GradeDistribution): IBarChartSpec {
       mark: {
         content: [
           {
-            key: (d) => (d as { grade: string }).grade,
-            value: (d) => String((d as { count: number }).count),
+            key: (d) => (d as GradeDatum).grade,
+            value: (d) => String((d as GradeDatum).count),
           },
         ],
       },
@@ -99,8 +100,8 @@ function PieSpec(distribution: GradeDistribution): IPieChartSpec {
       mark: {
         content: [
           {
-            key: (d) => (d as { grade: string }).grade,
-            value: (d) => String((d as { count: number }).count),
+            key: (d) => (d as GradeDatum).grade,
+            value: (d) => String((d as GradeDatum).count),
           },
         ],
       },
@@ -126,8 +127,8 @@ function RadarSpec(distribution: GradeDistribution): IRadarChartSpec {
       mark: {
         content: [
           {
-            key: (d) => (d as { grade: string }).grade,
-            value: (d) => String((d as { count: number }).count),
+            key: (d) => (d as GradeDatum).grade,
+            value: (d) => String((d as GradeDatum).count),
           },
         ],
       },

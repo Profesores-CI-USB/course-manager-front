@@ -6,11 +6,10 @@ import type {
   EnrollmentOut,
   EnrollmentUpdate,
 } from "@/domain/entities/academic";
-import { EnrollmentRepository } from "@/infrastructure/repositories/enrollment.repository";
+import { enrollmentRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
+import { toErrorMessage } from "@/lib/utils";
 import type { ActionResult } from "./auth";
-
-const repo = new EnrollmentRepository();
 
 async function requireToken(): Promise<string> {
   const token = await getAccessToken();
@@ -23,11 +22,11 @@ export async function createEnrollmentAction(
 ): Promise<ActionResult<EnrollmentOut>> {
   try {
     const token = await requireToken();
-    const enrollment = await repo.create(data, token);
+    const enrollment = await enrollmentRepo.create(data, token);
     revalidatePath("/enrollments");
     return { success: true, data: enrollment };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -37,10 +36,25 @@ export async function updateEnrollmentAction(
 ): Promise<ActionResult<EnrollmentOut>> {
   try {
     const token = await requireToken();
-    const enrollment = await repo.update(id, data, token);
+    const enrollment = await enrollmentRepo.update(id, data, token);
     revalidatePath("/enrollments");
     return { success: true, data: enrollment };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
+  }
+}
+
+export async function bulkCsvEnrollmentAction(
+  courseId: string,
+  file: File,
+): Promise<{ success: boolean; data?: { enrolled: number }; error?: string }> {
+  try {
+    const token = await getAccessToken();
+    if (!token) return { success: false, error: "No autenticado" };
+    const result = await enrollmentRepo.bulkCsv(courseId, file, token);
+    revalidatePath("/enrollments");
+    return { success: true, data: result };
+  } catch (e) {
+    return { success: false, error: toErrorMessage(e) };
   }
 }

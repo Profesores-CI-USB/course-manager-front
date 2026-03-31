@@ -125,6 +125,7 @@ export default function StudentsClient({ initialData }: Props) {
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => openEdit(student)}
+                      aria-label={`Editar estudiante ${student.student_card}`}
                       className="rounded p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                     >
                       <Pencil size={14} />

@@ -12,3 +12,9 @@ export function addThousandsSeparator(num: number) {
 export function numberToPercentage(num: number) {
   return `${num * 100}%`;
 }
+
+export function toErrorMessage(e: unknown): string {
+  if (e instanceof Error) return e.message;
+  if (typeof e === "string") return e;
+  return "Error inesperado";
+}

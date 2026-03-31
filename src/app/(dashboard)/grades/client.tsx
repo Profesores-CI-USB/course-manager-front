@@ -149,6 +149,7 @@ export default function GradesClient({
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => openEdit(grade)}
+                      aria-label={`Editar calificación ${grade.id}`}
                       className="rounded p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                     >
                       <Pencil size={14} />

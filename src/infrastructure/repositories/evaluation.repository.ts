@@ -1,18 +1,18 @@
 import type {
   EvaluationCreate,
+  EvaluationListParams,
   EvaluationOut,
   EvaluationUpdate,
-  ListParams,
 } from "@/domain/entities/academic";
 import type { IEvaluationRepository } from "@/domain/ports/academic.port";
 import { apiClient } from "@/infrastructure/http/api-client";
 
 export class EvaluationRepository implements IEvaluationRepository {
-  async list(params: ListParams, token: string): Promise<EvaluationOut[]> {
+  async list(params: EvaluationListParams, token: string): Promise<EvaluationOut[]> {
     return apiClient.get<EvaluationOut[]>(
       "/api/v1/academic/evaluations",
       token,
-      params,
+      params as Record<string, string | number | undefined>,
     );
   }
 

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import type { UserOut } from "@/domain/entities/auth";
-import { UserRepository } from "@/infrastructure/repositories/auth.repository";
+import { userRepo } from "@/infrastructure/container";
 import { SideNav } from "@/components/nav";
 import { getAccessToken } from "@/lib/session";
 
@@ -14,8 +14,7 @@ export default async function DashboardLayout({
 
   let user: UserOut | null = null;
   try {
-    const repo = new UserRepository();
-    user = await repo.getMe(token);
+    user = await userRepo.getMe(token);
   } catch {
     // user stays null — sidebar shows placeholder
   }

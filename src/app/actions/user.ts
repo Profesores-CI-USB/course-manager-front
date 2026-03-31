@@ -2,11 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import type { SmtpCredentialsUpdate, UserSmtpOut } from "@/domain/entities/auth";
-import { UserRepository } from "@/infrastructure/repositories/auth.repository";
+import { userRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
+import { toErrorMessage } from "@/lib/utils";
 import type { ActionResult } from "./auth";
-
-const repo = new UserRepository();
 
 async function requireToken(): Promise<string> {
   const token = await getAccessToken();
@@ -19,10 +18,10 @@ export async function updateSmtpAction(
 ): Promise<ActionResult<UserSmtpOut>> {
   try {
     const token = await requireToken();
-    const smtp = await repo.updateSmtp(data, token);
+    const smtp = await userRepo.updateSmtp(data, token);
     revalidatePath("/profile");
     return { success: true, data: smtp };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }

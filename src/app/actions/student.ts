@@ -2,11 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import type { StudentCreate, StudentOut, StudentUpdate } from "@/domain/entities/academic";
-import { StudentRepository } from "@/infrastructure/repositories/student.repository";
+import { studentRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
+import { toErrorMessage } from "@/lib/utils";
 import type { ActionResult } from "./auth";
-
-const repo = new StudentRepository();
 
 async function requireToken(): Promise<string> {
   const token = await getAccessToken();
@@ -19,11 +18,11 @@ export async function createStudentAction(
 ): Promise<ActionResult<StudentOut>> {
   try {
     const token = await requireToken();
-    const student = await repo.create(data, token);
+    const student = await studentRepo.create(data, token);
     revalidatePath("/students");
     return { success: true, data: student };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -33,10 +32,10 @@ export async function updateStudentAction(
 ): Promise<ActionResult<StudentOut>> {
   try {
     const token = await requireToken();
-    const student = await repo.update(id, data, token);
+    const student = await studentRepo.update(id, data, token);
     revalidatePath("/students");
     return { success: true, data: student };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }

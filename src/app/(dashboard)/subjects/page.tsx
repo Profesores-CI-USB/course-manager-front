@@ -1,11 +1,12 @@
-import { SubjectRepository } from "@/infrastructure/repositories/subject.repository";
+import { redirect } from "next/navigation";
+import { subjectRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
 import SubjectsClient from "./client";
 
 export default async function SubjectsPage() {
   const token = await getAccessToken();
-  const repo = new SubjectRepository();
-  const subjects = await repo.list({ limit: 100 }, token!);
+  if (!token) redirect("/login");
+  const subjects = await subjectRepo.list({ limit: 100 }, token);
 
   return <SubjectsClient initialData={subjects} />;
 }

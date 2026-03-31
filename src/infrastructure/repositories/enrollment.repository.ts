@@ -1,18 +1,18 @@
 import type {
   EnrollmentCreate,
+  EnrollmentListParams,
   EnrollmentOut,
   EnrollmentUpdate,
-  ListParams,
 } from "@/domain/entities/academic";
 import type { IEnrollmentRepository } from "@/domain/ports/academic.port";
 import { apiClient } from "@/infrastructure/http/api-client";
 
 export class EnrollmentRepository implements IEnrollmentRepository {
-  async list(params: ListParams, token: string): Promise<EnrollmentOut[]> {
+  async list(params: EnrollmentListParams, token: string): Promise<EnrollmentOut[]> {
     return apiClient.get<EnrollmentOut[]>(
       "/api/v1/academic/enrollments",
       token,
-      params,
+      params as Record<string, string | number | undefined>,
     );
   }
 

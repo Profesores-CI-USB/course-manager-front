@@ -2,10 +2,9 @@
 
 import { redirect } from "next/navigation";
 import type { ChangePasswordRequest, RegisterRequest } from "@/domain/entities/auth";
-import { AuthRepository } from "@/infrastructure/repositories/auth.repository";
+import { authRepo, userRepo } from "@/infrastructure/container";
 import { clearSession, getAccessToken, getRefreshToken, setSession } from "@/lib/session";
-
-const repo = new AuthRepository();
+import { toErrorMessage } from "@/lib/utils";
 
 export type ActionResult<T = void> =
   | { success: true; data: T }
@@ -16,13 +15,13 @@ export async function loginAction(
   password: string,
 ): Promise<ActionResult> {
   try {
-    const response = await repo.login({ email, password });
+    const response = await authRepo.login({ email, password });
     await setSession(
       response.tokens.access_token,
       response.tokens.refresh_token,
     );
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
   redirect("/");
 }
@@ -33,10 +32,10 @@ export async function createUserAction(
   const token = await getAccessToken();
   if (!token) return { success: false, error: "No autenticado" };
   try {
-    await repo.register(data, token);
+    await authRepo.register(data, token);
     return { success: true, data: undefined };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -46,7 +45,7 @@ export async function logoutAction(): Promise<void> {
 
   if (token && refreshToken) {
     try {
-      await repo.logout(refreshToken, token);
+      await authRepo.logout(refreshToken, token);
     } catch {
       // proceed to clear session even if API call fails
     }
@@ -60,10 +59,10 @@ export async function forgotPasswordAction(
   email: string,
 ): Promise<ActionResult> {
   try {
-    await repo.forgotPassword(email);
+    await authRepo.forgotPassword(email);
     return { success: true, data: undefined };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -72,10 +71,10 @@ export async function resetPasswordAction(
   newPassword: string,
 ): Promise<ActionResult> {
   try {
-    await repo.resetPassword(token, newPassword);
+    await authRepo.resetPassword(token, newPassword);
     return { success: true, data: undefined };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -85,9 +84,10 @@ export async function changePasswordAction(
   const token = await getAccessToken();
   if (!token) return { success: false, error: "No autenticado" };
   try {
-    await repo.changePassword(data, token);
+    await authRepo.changePassword(data, token);
     return { success: true, data: undefined };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
+

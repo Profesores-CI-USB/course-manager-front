@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import {
   CourseAveragesBlock,
   CoursePassRateBlock,
@@ -7,16 +8,16 @@ import {
 import Container from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import type { StatsResponse } from "@/domain/entities/stats";
-import { StatsRepository } from "@/infrastructure/repositories/stats.repository";
+import { statsRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
 
 export default async function Home() {
   const token = await getAccessToken();
+  if (!token) redirect("/login");
 
   let stats: StatsResponse | null = null;
   try {
-    const repo = new StatsRepository();
-    stats = await repo.getCourseStats(token!);
+    stats = await statsRepo.getCourseStats(token);
   } catch {
     // stats stays null — show empty state
   }

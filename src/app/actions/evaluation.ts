@@ -6,11 +6,10 @@ import type {
   EvaluationOut,
   EvaluationUpdate,
 } from "@/domain/entities/academic";
-import { EvaluationRepository } from "@/infrastructure/repositories/evaluation.repository";
+import { evaluationRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
+import { toErrorMessage } from "@/lib/utils";
 import type { ActionResult } from "./auth";
-
-const repo = new EvaluationRepository();
 
 async function requireToken(): Promise<string> {
   const token = await getAccessToken();
@@ -23,11 +22,11 @@ export async function createEvaluationAction(
 ): Promise<ActionResult<EvaluationOut>> {
   try {
     const token = await requireToken();
-    const evaluation = await repo.create(data, token);
+    const evaluation = await evaluationRepo.create(data, token);
     revalidatePath("/evaluations");
     return { success: true, data: evaluation };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -37,10 +36,10 @@ export async function updateEvaluationAction(
 ): Promise<ActionResult<EvaluationOut>> {
   try {
     const token = await requireToken();
-    const evaluation = await repo.update(id, data, token);
+    const evaluation = await evaluationRepo.update(id, data, token);
     revalidatePath("/evaluations");
     return { success: true, data: evaluation };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }

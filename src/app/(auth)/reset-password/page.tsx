@@ -92,7 +92,7 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div className="h-64 animate-pulse rounded-xl border border-border bg-card" />}>
       <ResetPasswordForm />
     </Suspense>
   );

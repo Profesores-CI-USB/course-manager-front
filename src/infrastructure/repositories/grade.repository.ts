@@ -2,17 +2,17 @@ import type {
   EvaluationGradeCreate,
   EvaluationGradeOut,
   EvaluationGradeUpdate,
-  ListParams,
+  GradeListParams,
 } from "@/domain/entities/academic";
 import type { IEvaluationGradeRepository } from "@/domain/ports/academic.port";
 import { apiClient } from "@/infrastructure/http/api-client";
 
 export class GradeRepository implements IEvaluationGradeRepository {
-  async list(params: ListParams, token: string): Promise<EvaluationGradeOut[]> {
+  async list(params: GradeListParams, token: string): Promise<EvaluationGradeOut[]> {
     return apiClient.get<EvaluationGradeOut[]>(
       "/api/v1/academic/evaluation-grades",
       token,
-      params,
+      params as Record<string, string | number | undefined>,
     );
   }
 

@@ -2,11 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import type { CourseCreate, CourseOut, CourseUpdate } from "@/domain/entities/academic";
-import { CourseRepository } from "@/infrastructure/repositories/course.repository";
+import { courseRepo } from "@/infrastructure/container";
 import { getAccessToken } from "@/lib/session";
+import { toErrorMessage } from "@/lib/utils";
 import type { ActionResult } from "./auth";
-
-const repo = new CourseRepository();
 
 async function requireToken(): Promise<string> {
   const token = await getAccessToken();
@@ -19,11 +18,11 @@ export async function createCourseAction(
 ): Promise<ActionResult<CourseOut>> {
   try {
     const token = await requireToken();
-    const course = await repo.create(data, token);
+    const course = await courseRepo.create(data, token);
     revalidatePath("/courses");
     return { success: true, data: course };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }
 
@@ -33,10 +32,10 @@ export async function updateCourseAction(
 ): Promise<ActionResult<CourseOut>> {
   try {
     const token = await requireToken();
-    const course = await repo.update(id, data, token);
+    const course = await courseRepo.update(id, data, token);
     revalidatePath("/courses");
     return { success: true, data: course };
   } catch (e) {
-    return { success: false, error: (e as Error).message };
+    return { success: false, error: toErrorMessage(e) };
   }
 }

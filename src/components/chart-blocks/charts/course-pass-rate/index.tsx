@@ -13,6 +13,7 @@ import { ChartTypeToggle } from "../../components/chart-type-toggle";
 import ChartTitle from "../../components/chart-title";
 
 type ChartType = "bar" | "line" | "radar";
+type PassRateDatum = { course: string; rate: number; graded: number; enrolled: number };
 
 const CHART_OPTIONS = [
   { value: "bar" as const, icon: BarChart2, label: "Barras" },
@@ -31,13 +32,13 @@ function buildValues(courses: CourseStats[]) {
 
 const TOOLTIP_CONTENT = [
   {
-    key: (d: unknown) => (d as { course: string }).course,
-    value: (d: unknown) => `${(d as { rate: number }).rate}% aprobación`,
+    key: (d: unknown) => (d as PassRateDatum).course,
+    value: (d: unknown) => `${(d as PassRateDatum).rate}% aprobación`,
   },
   {
     key: () => "Calificados / Inscritos",
     value: (d: unknown) =>
-      `${(d as { graded: number }).graded} / ${(d as { enrolled: number }).enrolled}`,
+      `${(d as PassRateDatum).graded} / ${(d as PassRateDatum).enrolled}`,
   },
 ];
 
@@ -63,7 +64,7 @@ function BarSpec(courses: CourseStats[]): IBarChartSpec {
       style: {
         cornerRadius: [6, 6, 0, 0],
         fill: (datum) => {
-          const rate = (datum as { rate: number }).rate;
+          const rate = (datum as PassRateDatum).rate;
           return rate >= 70 ? "#22c55e" : rate >= 50 ? "#eab308" : "#ef4444";
         },
       },

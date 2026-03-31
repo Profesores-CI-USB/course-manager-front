@@ -1,6 +1,6 @@
 import type {
-  ListParams,
   SubjectCreate,
+  SubjectListParams,
   SubjectOut,
   SubjectUpdate,
 } from "@/domain/entities/academic";
@@ -8,8 +8,8 @@ import type { ISubjectRepository } from "@/domain/ports/academic.port";
 import { apiClient } from "@/infrastructure/http/api-client";
 
 export class SubjectRepository implements ISubjectRepository {
-  async list(params: ListParams, token: string): Promise<SubjectOut[]> {
-    return apiClient.get<SubjectOut[]>("/api/v1/academic/subjects", token, params);
+  async list(params: SubjectListParams, token: string): Promise<SubjectOut[]> {
+    return apiClient.get<SubjectOut[]>("/api/v1/academic/subjects", token, params as Record<string, string | number | undefined>);
   }
 
   async create(data: SubjectCreate, token: string): Promise<SubjectOut> {
