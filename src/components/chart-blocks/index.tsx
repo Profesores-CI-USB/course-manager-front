@@ -1,5 +1,4 @@
-export { default as Metrics } from "./charts/metrics";
-export { default as AverageTicketsCreated } from "./charts/average-tickets-created";
-export { default as Conversions } from "./charts/conversions";
-export { default as TicketByChannels } from "./charts/ticket-by-channels";
-export { default as CustomerSatisfication } from "./charts/customer-satisfication";
+export { default as StatsMetrics } from "./charts/stats-metrics";
+export { default as GradeDistributionBlock } from "./charts/grade-distribution";
+export { default as CourseAveragesBlock } from "./charts/course-averages";
+export { default as CoursePassRateBlock } from "./charts/course-pass-rate";

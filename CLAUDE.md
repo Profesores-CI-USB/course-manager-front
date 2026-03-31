@@ -110,3 +110,16 @@ Charts live in `src/components/chart-blocks/charts/`, each in its own directory.
 
 - ESLint: no `console.log`, prefer type-only imports, no unused variables
 - Prettier: sorts imports (`@trivago/prettier-plugin-sort-imports`) and Tailwind classes
+
+## Documentation
+
+Frontend documentation lives in `docs/frontend/` and **must be kept up to date** when views are added or modified.
+
+| File | Contents |
+|---|---|
+| `docs/frontend/index.md` | Route index and tech stack overview |
+| `docs/frontend/dashboard.md` | Dashboard stats page: charts, data flow, API fields |
+| `docs/frontend/crud-views.md` | CRUD pattern shared by all academic entity pages |
+| `docs/frontend/auth-views.md` | Login, register, password reset views |
+
+Backend API documentation (`docs/backend/`) is maintained manually by the backend project and should **not** be edited here.
