@@ -1,1 +1,3249 @@
-{"openapi":"3.1.0","info":{"title":"Course Manager Backend","description":"Plantilla backend: FastAPI + Neon(Postgres) + Redis + SMTP + IA","version":"1.0.0"},"paths":{"/health":{"get":{"tags":["health"],"summary":"Health Check","operationId":"health_check_health_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/api/v1/auth/users":{"post":{"tags":["auth"],"summary":"Create User","operationId":"create_user_api_v1_auth_users_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterRequest"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/api/v1/auth/login":{"post":{"tags":["auth"],"summary":"Login","operationId":"login_api_v1_auth_login_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/LoginRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/auth/refresh":{"post":{"tags":["auth"],"summary":"Refresh Tokens","operationId":"refresh_tokens_api_v1_auth_refresh_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/TokenPair"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/auth/logout":{"post":{"tags":["auth"],"summary":"Logout","operationId":"logout_api_v1_auth_logout_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/LogoutRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/auth/forgot-password":{"post":{"tags":["auth"],"summary":"Forgot Password","operationId":"forgot_password_api_v1_auth_forgot_password_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ForgotPasswordRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/MessageResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/auth/reset-password":{"post":{"tags":["auth"],"summary":"Reset Password","operationId":"reset_password_api_v1_auth_reset_password_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResetPasswordRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/MessageResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/auth/change-password":{"post":{"tags":["auth"],"summary":"Change Password","operationId":"change_password_api_v1_auth_change_password_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ChangePasswordRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/MessageResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/api/v1/users/me":{"get":{"tags":["users"],"summary":"Get Me","operationId":"get_me_api_v1_users_me_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserOut"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/api/v1/users/me/smtp":{"get":{"tags":["users"],"summary":"Get My Smtp","operationId":"get_my_smtp_api_v1_users_me_smtp_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserSmtpOut"}}}}},"security":[{"OAuth2PasswordBearer":[]}]},"put":{"tags":["users"],"summary":"Upsert My Smtp","operationId":"upsert_my_smtp_api_v1_users_me_smtp_put","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SmtpCredentialsUpdate"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserSmtpOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/api/v1/mail/send":{"post":{"tags":["mail"],"summary":"Send Mail","operationId":"send_mail_api_v1_mail_send_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SendMailRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SendMailResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/api/v1/ai/predict":{"post":{"tags":["ai"],"summary":"Predict","operationId":"predict_api_v1_ai_predict_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AIPredictRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AIPredictResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/subjects":{"get":{"tags":["academic"],"summary":"List Subjects","operationId":"list_subjects_api_v1_academic_subjects_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"code","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Code"}},{"name":"name","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Name"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"default":50,"title":"Limit"}},{"name":"offset","in":"query","required":false,"schema":{"type":"integer","minimum":0,"default":0,"title":"Offset"}},{"name":"order_by","in":"query","required":false,"schema":{"$ref":"#/components/schemas/SubjectOrderBy","default":"code"}},{"name":"order_dir","in":"query","required":false,"schema":{"type":"string","pattern":"^(asc|desc)$","default":"asc","title":"Order Dir"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/SubjectOut"},"title":"Response List Subjects Api V1 Academic Subjects Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["academic"],"summary":"Create Subject","operationId":"create_subject_api_v1_academic_subjects_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SubjectCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SubjectOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/courses":{"get":{"tags":["academic"],"summary":"List Courses","operationId":"list_courses_api_v1_academic_courses_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"subject_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Subject Id"}},{"name":"term","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Term"}},{"name":"year","in":"query","required":false,"schema":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Year"}},{"name":"professor_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Professor Id"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"default":50,"title":"Limit"}},{"name":"offset","in":"query","required":false,"schema":{"type":"integer","minimum":0,"default":0,"title":"Offset"}},{"name":"order_by","in":"query","required":false,"schema":{"$ref":"#/components/schemas/CourseOrderBy","default":"year"}},{"name":"order_dir","in":"query","required":false,"schema":{"type":"string","pattern":"^(asc|desc)$","default":"desc","title":"Order Dir"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/CourseOut"},"title":"Response List Courses Api V1 Academic Courses Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["academic"],"summary":"Create Course","operationId":"create_course_api_v1_academic_courses_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CourseCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CourseOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/students":{"get":{"tags":["academic"],"summary":"List Students","operationId":"list_students_api_v1_academic_students_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"course_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Course Id"}},{"name":"student_card","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Student Card"}},{"name":"email","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Email"}},{"name":"full_name","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Full Name"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"default":50,"title":"Limit"}},{"name":"offset","in":"query","required":false,"schema":{"type":"integer","minimum":0,"default":0,"title":"Offset"}},{"name":"order_by","in":"query","required":false,"schema":{"$ref":"#/components/schemas/StudentOrderBy","default":"full_name"}},{"name":"order_dir","in":"query","required":false,"schema":{"type":"string","pattern":"^(asc|desc)$","default":"asc","title":"Order Dir"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/StudentOut"},"title":"Response List Students Api V1 Academic Students Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["academic"],"summary":"Create Student","operationId":"create_student_api_v1_academic_students_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/StudentCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/StudentOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/evaluations":{"get":{"tags":["academic"],"summary":"List Evaluations","operationId":"list_evaluations_api_v1_academic_evaluations_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"course_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Course Id"}},{"name":"evaluation_type","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Evaluation Type"}},{"name":"due_date_from","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"date"},{"type":"null"}],"title":"Due Date From"}},{"name":"due_date_to","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"date"},{"type":"null"}],"title":"Due Date To"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"default":50,"title":"Limit"}},{"name":"offset","in":"query","required":false,"schema":{"type":"integer","minimum":0,"default":0,"title":"Offset"}},{"name":"order_by","in":"query","required":false,"schema":{"$ref":"#/components/schemas/EvaluationOrderBy","default":"due_date"}},{"name":"order_dir","in":"query","required":false,"schema":{"type":"string","pattern":"^(asc|desc)$","default":"desc","title":"Order Dir"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/EvaluationOut"},"title":"Response List Evaluations Api V1 Academic Evaluations Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["academic"],"summary":"Create Evaluation","operationId":"create_evaluation_api_v1_academic_evaluations_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/enrollments":{"get":{"tags":["academic"],"summary":"List Enrollments","operationId":"list_enrollments_api_v1_academic_enrollments_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"course_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Course Id"}},{"name":"student_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Student Id"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"default":50,"title":"Limit"}},{"name":"offset","in":"query","required":false,"schema":{"type":"integer","minimum":0,"default":0,"title":"Offset"}},{"name":"order_by","in":"query","required":false,"schema":{"$ref":"#/components/schemas/EnrollmentOrderBy","default":"id"}},{"name":"order_dir","in":"query","required":false,"schema":{"type":"string","pattern":"^(asc|desc)$","default":"asc","title":"Order Dir"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/EnrollmentOut"},"title":"Response List Enrollments Api V1 Academic Enrollments Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["academic"],"summary":"Create Enrollment","operationId":"create_enrollment_api_v1_academic_enrollments_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EnrollmentCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EnrollmentOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/evaluation-grades":{"get":{"tags":["academic"],"summary":"List Evaluation Grades","operationId":"list_evaluation_grades_api_v1_academic_evaluation_grades_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"course_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Course Id"}},{"name":"evaluation_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Evaluation Id"}},{"name":"enrollment_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Enrollment Id"}},{"name":"student_id","in":"query","required":false,"schema":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Student Id"}},{"name":"limit","in":"query","required":false,"schema":{"type":"integer","maximum":200,"minimum":1,"default":50,"title":"Limit"}},{"name":"offset","in":"query","required":false,"schema":{"type":"integer","minimum":0,"default":0,"title":"Offset"}},{"name":"order_by","in":"query","required":false,"schema":{"$ref":"#/components/schemas/EvaluationGradeOrderBy","default":"id"}},{"name":"order_dir","in":"query","required":false,"schema":{"type":"string","pattern":"^(asc|desc)$","default":"asc","title":"Order Dir"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/EvaluationGradeOut"},"title":"Response List Evaluation Grades Api V1 Academic Evaluation Grades Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["academic"],"summary":"Create Evaluation Grade","operationId":"create_evaluation_grade_api_v1_academic_evaluation_grades_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationGradeCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationGradeOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/enrollments/bulk-csv":{"post":{"tags":["academic"],"summary":"Bulk Enroll Students Csv","operationId":"bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post","requestBody":{"content":{"multipart/form-data":{"schema":{"$ref":"#/components/schemas/Body_bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BulkEnrollmentResult"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/api/v1/academic/subjects/{subject_id}":{"put":{"tags":["academic"],"summary":"Update Subject","operationId":"update_subject_api_v1_academic_subjects__subject_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"subject_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Subject Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SubjectUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SubjectOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/courses/{course_id}":{"put":{"tags":["academic"],"summary":"Update Course","operationId":"update_course_api_v1_academic_courses__course_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"course_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Course Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CourseUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CourseOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/students/{student_id}":{"put":{"tags":["academic"],"summary":"Update Student","operationId":"update_student_api_v1_academic_students__student_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"student_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Student Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/StudentUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/StudentOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/evaluations/{evaluation_id}":{"put":{"tags":["academic"],"summary":"Update Evaluation","operationId":"update_evaluation_api_v1_academic_evaluations__evaluation_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"evaluation_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Evaluation Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/enrollments/{enrollment_id}":{"put":{"tags":["academic"],"summary":"Update Enrollment","operationId":"update_enrollment_api_v1_academic_enrollments__enrollment_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"enrollment_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Enrollment Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EnrollmentUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EnrollmentOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/api/v1/academic/evaluation-grades/{evaluation_grade_id}":{"put":{"tags":["academic"],"summary":"Update Evaluation Grade","operationId":"update_evaluation_grade_api_v1_academic_evaluation_grades__evaluation_grade_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"evaluation_grade_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Evaluation Grade Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationGradeUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EvaluationGradeOut"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/":{"get":{"summary":"Root","operationId":"root__get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}}},"components":{"schemas":{"AIPredictRequest":{"properties":{"features":{"items":{"type":"number"},"type":"array","maxItems":3,"minItems":3,"title":"Features"}},"type":"object","required":["features"],"title":"AIPredictRequest"},"AIPredictResponse":{"properties":{"model":{"type":"string","title":"Model"},"score":{"type":"number","title":"Score"},"label":{"type":"string","title":"Label"}},"type":"object","required":["model","score","label"],"title":"AIPredictResponse"},"AuthResponse":{"properties":{"user":{"$ref":"#/components/schemas/UserOut"},"tokens":{"$ref":"#/components/schemas/TokenPair"}},"type":"object","required":["user","tokens"],"title":"AuthResponse"},"Body_bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post":{"properties":{"course_id":{"type":"string","format":"uuid","title":"Course Id"},"file":{"type":"string","contentMediaType":"application/octet-stream","title":"File"}},"type":"object","required":["course_id","file"],"title":"Body_bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post"},"BulkEnrollmentResult":{"properties":{"course_id":{"type":"string","format":"uuid","title":"Course Id"},"rows_total":{"type":"integer","title":"Rows Total"},"students_created":{"type":"integer","title":"Students Created"},"students_existing":{"type":"integer","title":"Students Existing"},"enrollments_created":{"type":"integer","title":"Enrollments Created"},"enrollments_existing":{"type":"integer","title":"Enrollments Existing"},"errors":{"items":{"$ref":"#/components/schemas/BulkEnrollmentRowError"},"type":"array","title":"Errors"}},"type":"object","required":["course_id","rows_total","students_created","students_existing","enrollments_created","enrollments_existing","errors"],"title":"BulkEnrollmentResult"},"BulkEnrollmentRowError":{"properties":{"line":{"type":"integer","title":"Line"},"student_card":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Student Card"},"detail":{"type":"string","title":"Detail"}},"type":"object","required":["line","detail"],"title":"BulkEnrollmentRowError"},"ChangePasswordRequest":{"properties":{"current_password":{"type":"string","title":"Current Password"},"new_password":{"type":"string","title":"New Password"}},"type":"object","required":["current_password","new_password"],"title":"ChangePasswordRequest"},"CourseCreate":{"properties":{"subject_id":{"type":"string","format":"uuid","title":"Subject Id"},"professor_id":{"type":"string","format":"uuid","title":"Professor Id"},"term":{"type":"string","enum":["april-july","january-march","september-december","summer"],"title":"Term"},"year":{"type":"integer","title":"Year"}},"type":"object","required":["subject_id","professor_id","term","year"],"title":"CourseCreate"},"CourseOrderBy":{"type":"string","enum":["year","term","subject_id","professor_id"],"title":"CourseOrderBy"},"CourseOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"subject_id":{"type":"string","format":"uuid","title":"Subject Id"},"professor_id":{"type":"string","format":"uuid","title":"Professor Id"},"term":{"type":"string","enum":["april-july","january-march","september-december","summer"],"title":"Term"},"year":{"type":"integer","title":"Year"}},"type":"object","required":["id","subject_id","professor_id","term","year"],"title":"CourseOut"},"CourseUpdate":{"properties":{"subject_id":{"type":"string","format":"uuid","title":"Subject Id"},"professor_id":{"type":"string","format":"uuid","title":"Professor Id"},"term":{"type":"string","enum":["april-july","january-march","september-december","summer"],"title":"Term"},"year":{"type":"integer","title":"Year"}},"type":"object","required":["subject_id","professor_id","term","year"],"title":"CourseUpdate"},"EnrollmentCreate":{"properties":{"course_id":{"type":"string","format":"uuid","title":"Course Id"},"student_id":{"type":"string","format":"uuid","title":"Student Id"}},"type":"object","required":["course_id","student_id"],"title":"EnrollmentCreate"},"EnrollmentOrderBy":{"type":"string","enum":["id","final_grade"],"title":"EnrollmentOrderBy"},"EnrollmentOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"course_id":{"type":"string","format":"uuid","title":"Course Id"},"student_id":{"type":"string","format":"uuid","title":"Student Id"},"final_grade":{"anyOf":[{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"},{"type":"null"}],"title":"Final Grade"}},"type":"object","required":["id","course_id","student_id","final_grade"],"title":"EnrollmentOut"},"EnrollmentUpdate":{"properties":{"course_id":{"type":"string","format":"uuid","title":"Course Id"},"student_id":{"type":"string","format":"uuid","title":"Student Id"},"final_grade":{"anyOf":[{"type":"number","maximum":100.0,"minimum":0.0},{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"},{"type":"null"}],"title":"Final Grade"}},"type":"object","required":["course_id","student_id"],"title":"EnrollmentUpdate"},"EvaluationCreate":{"properties":{"course_id":{"type":"string","format":"uuid","title":"Course Id"},"description":{"type":"string","title":"Description"},"percentage":{"anyOf":[{"type":"number","maximum":100.0,"minimum":0.0},{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"}],"title":"Percentage"},"evaluation_type":{"type":"string","enum":["exam","homework","workshop","project","report","presentation","video"],"title":"Evaluation Type"},"due_date":{"type":"string","format":"date","title":"Due Date"}},"type":"object","required":["course_id","description","percentage","evaluation_type","due_date"],"title":"EvaluationCreate"},"EvaluationGradeCreate":{"properties":{"evaluation_id":{"type":"string","format":"uuid","title":"Evaluation Id"},"enrollment_id":{"type":"string","format":"uuid","title":"Enrollment Id"},"grade":{"anyOf":[{"type":"number","minimum":0.0},{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"}],"title":"Grade"}},"type":"object","required":["evaluation_id","enrollment_id","grade"],"title":"EvaluationGradeCreate"},"EvaluationGradeOrderBy":{"type":"string","enum":["id","grade"],"title":"EvaluationGradeOrderBy"},"EvaluationGradeOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"evaluation_id":{"type":"string","format":"uuid","title":"Evaluation Id"},"enrollment_id":{"type":"string","format":"uuid","title":"Enrollment Id"},"grade":{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$","title":"Grade"}},"type":"object","required":["id","evaluation_id","enrollment_id","grade"],"title":"EvaluationGradeOut"},"EvaluationGradeUpdate":{"properties":{"evaluation_id":{"type":"string","format":"uuid","title":"Evaluation Id"},"enrollment_id":{"type":"string","format":"uuid","title":"Enrollment Id"},"grade":{"anyOf":[{"type":"number","minimum":0.0},{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"}],"title":"Grade"}},"type":"object","required":["evaluation_id","enrollment_id","grade"],"title":"EvaluationGradeUpdate"},"EvaluationOrderBy":{"type":"string","enum":["due_date","percentage","evaluation_type"],"title":"EvaluationOrderBy"},"EvaluationOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"course_id":{"type":"string","format":"uuid","title":"Course Id"},"description":{"type":"string","title":"Description"},"percentage":{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$","title":"Percentage"},"evaluation_type":{"type":"string","enum":["exam","homework","workshop","project","report","presentation","video"],"title":"Evaluation Type"},"due_date":{"type":"string","format":"date","title":"Due Date"}},"type":"object","required":["id","course_id","description","percentage","evaluation_type","due_date"],"title":"EvaluationOut"},"EvaluationUpdate":{"properties":{"course_id":{"type":"string","format":"uuid","title":"Course Id"},"description":{"type":"string","title":"Description"},"percentage":{"anyOf":[{"type":"number","maximum":100.0,"minimum":0.0},{"type":"string","pattern":"^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"}],"title":"Percentage"},"evaluation_type":{"type":"string","enum":["exam","homework","workshop","project","report","presentation","video"],"title":"Evaluation Type"},"due_date":{"type":"string","format":"date","title":"Due Date"}},"type":"object","required":["course_id","description","percentage","evaluation_type","due_date"],"title":"EvaluationUpdate"},"ForgotPasswordRequest":{"properties":{"email":{"type":"string","format":"email","title":"Email"}},"type":"object","required":["email"],"title":"ForgotPasswordRequest"},"HTTPValidationError":{"properties":{"detail":{"items":{"$ref":"#/components/schemas/ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"},"LoginRequest":{"properties":{"email":{"type":"string","format":"email","title":"Email"},"password":{"type":"string","title":"Password"}},"type":"object","required":["email","password"],"title":"LoginRequest"},"LogoutRequest":{"properties":{"refresh_token":{"type":"string","title":"Refresh Token"}},"type":"object","required":["refresh_token"],"title":"LogoutRequest"},"MessageResponse":{"properties":{"message":{"type":"string","title":"Message"}},"type":"object","required":["message"],"title":"MessageResponse"},"RefreshRequest":{"properties":{"refresh_token":{"type":"string","title":"Refresh Token"}},"type":"object","required":["refresh_token"],"title":"RefreshRequest"},"RegisterRequest":{"properties":{"email":{"type":"string","format":"email","title":"Email"},"password":{"type":"string","title":"Password"},"full_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Full Name"},"role":{"type":"string","enum":["admin","professor"],"title":"Role","default":"professor"}},"type":"object","required":["email","password"],"title":"RegisterRequest"},"ResetPasswordRequest":{"properties":{"token":{"type":"string","title":"Token"},"new_password":{"type":"string","title":"New Password"}},"type":"object","required":["token","new_password"],"title":"ResetPasswordRequest"},"SendMailRequest":{"properties":{"to_email":{"type":"string","format":"email","title":"To Email"},"subject":{"type":"string","title":"Subject"},"body":{"type":"string","title":"Body"}},"type":"object","required":["to_email","subject","body"],"title":"SendMailRequest"},"SendMailResponse":{"properties":{"message":{"type":"string","title":"Message"}},"type":"object","required":["message"],"title":"SendMailResponse"},"SmtpCredentialsUpdate":{"properties":{"smtp_email":{"type":"string","format":"email","title":"Smtp Email"},"smtp_password":{"type":"string","title":"Smtp Password"}},"type":"object","required":["smtp_email","smtp_password"],"title":"SmtpCredentialsUpdate"},"StudentCreate":{"properties":{"full_name":{"type":"string","title":"Full Name"},"student_card":{"type":"string","title":"Student Card"},"email":{"anyOf":[{"type":"string","format":"email"},{"type":"null"}],"title":"Email"}},"type":"object","required":["full_name","student_card"],"title":"StudentCreate"},"StudentOrderBy":{"type":"string","enum":["full_name","student_card","email"],"title":"StudentOrderBy"},"StudentOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"full_name":{"type":"string","title":"Full Name"},"student_card":{"type":"string","title":"Student Card"},"email":{"type":"string","format":"email","title":"Email"}},"type":"object","required":["id","full_name","student_card","email"],"title":"StudentOut"},"StudentUpdate":{"properties":{"full_name":{"type":"string","title":"Full Name"},"student_card":{"type":"string","title":"Student Card"},"email":{"anyOf":[{"type":"string","format":"email"},{"type":"null"}],"title":"Email"}},"type":"object","required":["full_name","student_card"],"title":"StudentUpdate"},"SubjectCreate":{"properties":{"code":{"type":"string","title":"Code"},"name":{"type":"string","title":"Name"},"credits":{"type":"integer","title":"Credits"}},"type":"object","required":["code","name","credits"],"title":"SubjectCreate"},"SubjectOrderBy":{"type":"string","enum":["code","name","credits"],"title":"SubjectOrderBy"},"SubjectOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"code":{"type":"string","title":"Code"},"name":{"type":"string","title":"Name"},"credits":{"type":"integer","title":"Credits"}},"type":"object","required":["id","code","name","credits"],"title":"SubjectOut"},"SubjectUpdate":{"properties":{"code":{"type":"string","title":"Code"},"name":{"type":"string","title":"Name"},"credits":{"type":"integer","title":"Credits"}},"type":"object","required":["code","name","credits"],"title":"SubjectUpdate"},"TokenPair":{"properties":{"access_token":{"type":"string","title":"Access Token"},"refresh_token":{"type":"string","title":"Refresh Token"},"token_type":{"type":"string","title":"Token Type","default":"bearer"}},"type":"object","required":["access_token","refresh_token"],"title":"TokenPair"},"UserOut":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"email":{"type":"string","format":"email","title":"Email"},"full_name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Full Name"},"role":{"type":"string","enum":["admin","professor"],"title":"Role"},"smtp_configured":{"type":"boolean","title":"Smtp Configured"},"created_at":{"type":"string","format":"date-time","title":"Created At"}},"type":"object","required":["id","email","full_name","role","smtp_configured","created_at"],"title":"UserOut"},"UserSmtpOut":{"properties":{"smtp_email":{"anyOf":[{"type":"string","format":"email"},{"type":"null"}],"title":"Smtp Email"},"has_password":{"type":"boolean","title":"Has Password"}},"type":"object","required":["smtp_email","has_password"],"title":"UserSmtpOut"},"ValidationError":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"},"input":{"title":"Input"},"ctx":{"type":"object","title":"Context"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"}},"securitySchemes":{"OAuth2PasswordBearer":{"type":"oauth2","flows":{"password":{"scopes":{},"tokenUrl":"/api/v1/auth/login"}}}}}}
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Course Manager Backend",
+    "description": "Plantilla backend: FastAPI + Neon(Postgres) + Redis + SMTP + IA",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/users": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Create User",
+        "operationId": "create_user_api_v1_auth_users_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh Tokens",
+        "operationId": "refresh_tokens_api_v1_auth_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenPair"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Forgot Password",
+        "operationId": "forgot_password_api_v1_auth_forgot_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Reset Password",
+        "operationId": "reset_password_api_v1_auth_reset_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/change-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Change Password",
+        "operationId": "change_password_api_v1_auth_change_password_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Me",
+        "operationId": "get_me_api_v1_users_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOut"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/me/smtp": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get My Smtp",
+        "operationId": "get_my_smtp_api_v1_users_me_smtp_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSmtpOut"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Upsert My Smtp",
+        "operationId": "upsert_my_smtp_api_v1_users_me_smtp_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SmtpCredentialsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSmtpOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/mail/send": {
+      "post": {
+        "tags": [
+          "mail"
+        ],
+        "summary": "Send Mail",
+        "operationId": "send_mail_api_v1_mail_send_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/ai/predict": {
+      "post": {
+        "tags": [
+          "ai"
+        ],
+        "summary": "Predict",
+        "operationId": "predict_api_v1_ai_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AIPredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIPredictResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/subjects": {
+      "get": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "List Subjects",
+        "operationId": "list_subjects_api_v1_academic_subjects_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Code"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Name"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SubjectOrderBy",
+              "default": "code"
+            }
+          },
+          {
+            "name": "order_dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(asc|desc)$",
+              "default": "asc",
+              "title": "Order Dir"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubjectOut"
+                  },
+                  "title": "Response List Subjects Api V1 Academic Subjects Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Create Subject",
+        "operationId": "create_subject_api_v1_academic_subjects_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubjectCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/courses": {
+      "get": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "List Courses",
+        "operationId": "list_courses_api_v1_academic_courses_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subject_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject Id"
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Term"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Year"
+            }
+          },
+          {
+            "name": "professor_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Professor Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/CourseOrderBy",
+              "default": "year"
+            }
+          },
+          {
+            "name": "order_dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(asc|desc)$",
+              "default": "desc",
+              "title": "Order Dir"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseOut"
+                  },
+                  "title": "Response List Courses Api V1 Academic Courses Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Create Course",
+        "operationId": "create_course_api_v1_academic_courses_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/students": {
+      "get": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "List Students",
+        "operationId": "list_students_api_v1_academic_students_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Course Id"
+            }
+          },
+          {
+            "name": "student_card",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Student Card"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Email"
+            }
+          },
+          {
+            "name": "full_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Full Name"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/StudentOrderBy",
+              "default": "full_name"
+            }
+          },
+          {
+            "name": "order_dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(asc|desc)$",
+              "default": "asc",
+              "title": "Order Dir"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentOut"
+                  },
+                  "title": "Response List Students Api V1 Academic Students Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Create Student",
+        "operationId": "create_student_api_v1_academic_students_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/evaluations": {
+      "get": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "List Evaluations",
+        "operationId": "list_evaluations_api_v1_academic_evaluations_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Course Id"
+            }
+          },
+          {
+            "name": "evaluation_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Evaluation Type"
+            }
+          },
+          {
+            "name": "due_date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Due Date From"
+            }
+          },
+          {
+            "name": "due_date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Due Date To"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EvaluationOrderBy",
+              "default": "due_date"
+            }
+          },
+          {
+            "name": "order_dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(asc|desc)$",
+              "default": "desc",
+              "title": "Order Dir"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluationOut"
+                  },
+                  "title": "Response List Evaluations Api V1 Academic Evaluations Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Create Evaluation",
+        "operationId": "create_evaluation_api_v1_academic_evaluations_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/enrollments": {
+      "get": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "List Enrollments",
+        "operationId": "list_enrollments_api_v1_academic_enrollments_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Course Id"
+            }
+          },
+          {
+            "name": "student_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Student Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EnrollmentOrderBy",
+              "default": "id"
+            }
+          },
+          {
+            "name": "order_dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(asc|desc)$",
+              "default": "asc",
+              "title": "Order Dir"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnrollmentOut"
+                  },
+                  "title": "Response List Enrollments Api V1 Academic Enrollments Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Create Enrollment",
+        "operationId": "create_enrollment_api_v1_academic_enrollments_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnrollmentCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnrollmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/evaluation-grades": {
+      "get": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "List Evaluation Grades",
+        "operationId": "list_evaluation_grades_api_v1_academic_evaluation_grades_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Course Id"
+            }
+          },
+          {
+            "name": "evaluation_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Evaluation Id"
+            }
+          },
+          {
+            "name": "enrollment_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Enrollment Id"
+            }
+          },
+          {
+            "name": "student_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Student Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EvaluationGradeOrderBy",
+              "default": "id"
+            }
+          },
+          {
+            "name": "order_dir",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(asc|desc)$",
+              "default": "asc",
+              "title": "Order Dir"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EvaluationGradeOut"
+                  },
+                  "title": "Response List Evaluation Grades Api V1 Academic Evaluation Grades Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Create Evaluation Grade",
+        "operationId": "create_evaluation_grade_api_v1_academic_evaluation_grades_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationGradeCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationGradeOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/enrollments/bulk-csv": {
+      "post": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Bulk Enroll Students Csv",
+        "operationId": "bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEnrollmentResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/academic/subjects/{subject_id}": {
+      "put": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Update Subject",
+        "operationId": "update_subject_api_v1_academic_subjects__subject_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subject_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Subject Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubjectUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/courses/{course_id}": {
+      "put": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Update Course",
+        "operationId": "update_course_api_v1_academic_courses__course_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/students/{student_id}": {
+      "put": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Update Student",
+        "operationId": "update_student_api_v1_academic_students__student_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Student Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/evaluations/{evaluation_id}": {
+      "put": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Update Evaluation",
+        "operationId": "update_evaluation_api_v1_academic_evaluations__evaluation_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "evaluation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Evaluation Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/enrollments/{enrollment_id}": {
+      "put": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Update Enrollment",
+        "operationId": "update_enrollment_api_v1_academic_enrollments__enrollment_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "enrollment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Enrollment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnrollmentUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnrollmentOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academic/evaluation-grades/{evaluation_grade_id}": {
+      "put": {
+        "tags": [
+          "academic"
+        ],
+        "summary": "Update Evaluation Grade",
+        "operationId": "update_evaluation_grade_api_v1_academic_evaluation_grades__evaluation_grade_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "evaluation_grade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Evaluation Grade Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationGradeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluationGradeOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AIPredictRequest": {
+        "properties": {
+          "features": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 3,
+            "title": "Features"
+          }
+        },
+        "type": "object",
+        "required": [
+          "features"
+        ],
+        "title": "AIPredictRequest"
+      },
+      "AIPredictResponse": {
+        "properties": {
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model",
+          "score",
+          "label"
+        ],
+        "title": "AIPredictResponse"
+      },
+      "AuthResponse": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserOut"
+          },
+          "tokens": {
+            "$ref": "#/components/schemas/TokenPair"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user",
+          "tokens"
+        ],
+        "title": "AuthResponse"
+      },
+      "Body_bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "file"
+        ],
+        "title": "Body_bulk_enroll_students_csv_api_v1_academic_enrollments_bulk_csv_post"
+      },
+      "BulkEnrollmentResult": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "rows_total": {
+            "type": "integer",
+            "title": "Rows Total"
+          },
+          "students_created": {
+            "type": "integer",
+            "title": "Students Created"
+          },
+          "students_existing": {
+            "type": "integer",
+            "title": "Students Existing"
+          },
+          "enrollments_created": {
+            "type": "integer",
+            "title": "Enrollments Created"
+          },
+          "enrollments_existing": {
+            "type": "integer",
+            "title": "Enrollments Existing"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/BulkEnrollmentRowError"
+            },
+            "type": "array",
+            "title": "Errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "rows_total",
+          "students_created",
+          "students_existing",
+          "enrollments_created",
+          "enrollments_existing",
+          "errors"
+        ],
+        "title": "BulkEnrollmentResult"
+      },
+      "BulkEnrollmentRowError": {
+        "properties": {
+          "line": {
+            "type": "integer",
+            "title": "Line"
+          },
+          "student_card": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Student Card"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "line",
+          "detail"
+        ],
+        "title": "BulkEnrollmentRowError"
+      },
+      "ChangePasswordRequest": {
+        "properties": {
+          "current_password": {
+            "type": "string",
+            "title": "Current Password"
+          },
+          "new_password": {
+            "type": "string",
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "current_password",
+          "new_password"
+        ],
+        "title": "ChangePasswordRequest"
+      },
+      "CourseCreate": {
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Subject Id"
+          },
+          "professor_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Professor Id"
+          },
+          "term": {
+            "type": "string",
+            "enum": [
+              "april-july",
+              "january-march",
+              "september-december",
+              "summer"
+            ],
+            "title": "Term"
+          },
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subject_id",
+          "term",
+          "year"
+        ],
+        "title": "CourseCreate"
+      },
+      "CourseOrderBy": {
+        "type": "string",
+        "enum": [
+          "year",
+          "term",
+          "subject_id",
+          "professor_id"
+        ],
+        "title": "CourseOrderBy"
+      },
+      "CourseOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Subject Id"
+          },
+          "professor_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Professor Id"
+          },
+          "term": {
+            "type": "string",
+            "enum": [
+              "april-july",
+              "january-march",
+              "september-december",
+              "summer"
+            ],
+            "title": "Term"
+          },
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "subject_id",
+          "professor_id",
+          "term",
+          "year"
+        ],
+        "title": "CourseOut"
+      },
+      "CourseUpdate": {
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Subject Id"
+          },
+          "professor_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Professor Id"
+          },
+          "term": {
+            "type": "string",
+            "enum": [
+              "april-july",
+              "january-march",
+              "september-december",
+              "summer"
+            ],
+            "title": "Term"
+          },
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subject_id",
+          "professor_id",
+          "term",
+          "year"
+        ],
+        "title": "CourseUpdate"
+      },
+      "EnrollmentCreate": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "student_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Student Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "student_id"
+        ],
+        "title": "EnrollmentCreate"
+      },
+      "EnrollmentOrderBy": {
+        "type": "string",
+        "enum": [
+          "id",
+          "final_grade"
+        ],
+        "title": "EnrollmentOrderBy"
+      },
+      "EnrollmentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "student_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Student Id"
+          },
+          "final_grade": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Grade"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "course_id",
+          "student_id",
+          "final_grade"
+        ],
+        "title": "EnrollmentOut"
+      },
+      "EnrollmentUpdate": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "student_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Student Id"
+          },
+          "final_grade": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100,
+                "minimum": 0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Grade"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "student_id"
+        ],
+        "title": "EnrollmentUpdate"
+      },
+      "EvaluationCreate": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "percentage": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100,
+                "minimum": 0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Percentage"
+          },
+          "evaluation_type": {
+            "type": "string",
+            "enum": [
+              "exam",
+              "homework",
+              "workshop",
+              "project",
+              "report",
+              "presentation",
+              "video"
+            ],
+            "title": "Evaluation Type"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "description",
+          "percentage",
+          "evaluation_type",
+          "due_date"
+        ],
+        "title": "EvaluationCreate"
+      },
+      "EvaluationGradeCreate": {
+        "properties": {
+          "evaluation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Evaluation Id"
+          },
+          "enrollment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Enrollment Id"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Grade"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_id",
+          "enrollment_id",
+          "grade"
+        ],
+        "title": "EvaluationGradeCreate"
+      },
+      "EvaluationGradeOrderBy": {
+        "type": "string",
+        "enum": [
+          "id",
+          "grade"
+        ],
+        "title": "EvaluationGradeOrderBy"
+      },
+      "EvaluationGradeOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "evaluation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Evaluation Id"
+          },
+          "enrollment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Enrollment Id"
+          },
+          "grade": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Grade"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "evaluation_id",
+          "enrollment_id",
+          "grade"
+        ],
+        "title": "EvaluationGradeOut"
+      },
+      "EvaluationGradeUpdate": {
+        "properties": {
+          "evaluation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Evaluation Id"
+          },
+          "enrollment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Enrollment Id"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Grade"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_id",
+          "enrollment_id",
+          "grade"
+        ],
+        "title": "EvaluationGradeUpdate"
+      },
+      "EvaluationOrderBy": {
+        "type": "string",
+        "enum": [
+          "due_date",
+          "percentage",
+          "evaluation_type"
+        ],
+        "title": "EvaluationOrderBy"
+      },
+      "EvaluationOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "percentage": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Percentage"
+          },
+          "evaluation_type": {
+            "type": "string",
+            "enum": [
+              "exam",
+              "homework",
+              "workshop",
+              "project",
+              "report",
+              "presentation",
+              "video"
+            ],
+            "title": "Evaluation Type"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "course_id",
+          "description",
+          "percentage",
+          "evaluation_type",
+          "due_date"
+        ],
+        "title": "EvaluationOut"
+      },
+      "EvaluationUpdate": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "percentage": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100,
+                "minimum": 0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Percentage"
+          },
+          "evaluation_type": {
+            "type": "string",
+            "enum": [
+              "exam",
+              "homework",
+              "workshop",
+              "project",
+              "report",
+              "presentation",
+              "video"
+            ],
+            "title": "Evaluation Type"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "description",
+          "percentage",
+          "evaluation_type",
+          "due_date"
+        ],
+        "title": "EvaluationUpdate"
+      },
+      "ForgotPasswordRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "ForgotPasswordRequest"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "LogoutRequest": {
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh_token"
+        ],
+        "title": "LogoutRequest"
+      },
+      "MessageResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "MessageResponse"
+      },
+      "RefreshRequest": {
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh_token"
+        ],
+        "title": "RefreshRequest"
+      },
+      "RegisterRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "professor"
+            ],
+            "title": "Role",
+            "default": "professor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "RegisterRequest"
+      },
+      "ResetPasswordRequest": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "new_password": {
+            "type": "string",
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "new_password"
+        ],
+        "title": "ResetPasswordRequest"
+      },
+      "SendMailRequest": {
+        "properties": {
+          "to_email": {
+            "type": "string",
+            "format": "email",
+            "title": "To Email"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          }
+        },
+        "type": "object",
+        "required": [
+          "to_email",
+          "subject",
+          "body"
+        ],
+        "title": "SendMailRequest"
+      },
+      "SendMailResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "SendMailResponse"
+      },
+      "SmtpCredentialsUpdate": {
+        "properties": {
+          "smtp_email": {
+            "type": "string",
+            "format": "email",
+            "title": "Smtp Email"
+          },
+          "smtp_password": {
+            "type": "string",
+            "title": "Smtp Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "smtp_email",
+          "smtp_password"
+        ],
+        "title": "SmtpCredentialsUpdate"
+      },
+      "StudentCreate": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "student_card": {
+            "type": "string",
+            "title": "Student Card"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "student_card"
+        ],
+        "title": "StudentCreate"
+      },
+      "StudentOrderBy": {
+        "type": "string",
+        "enum": [
+          "full_name",
+          "student_card",
+          "email"
+        ],
+        "title": "StudentOrderBy"
+      },
+      "StudentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "student_card": {
+            "type": "string",
+            "title": "Student Card"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "full_name",
+          "student_card",
+          "email"
+        ],
+        "title": "StudentOut"
+      },
+      "StudentUpdate": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "student_card": {
+            "type": "string",
+            "title": "Student Card"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "student_card"
+        ],
+        "title": "StudentUpdate"
+      },
+      "SubjectCreate": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "credits": {
+            "type": "integer",
+            "title": "Credits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "credits"
+        ],
+        "title": "SubjectCreate"
+      },
+      "SubjectOrderBy": {
+        "type": "string",
+        "enum": [
+          "code",
+          "name",
+          "credits"
+        ],
+        "title": "SubjectOrderBy"
+      },
+      "SubjectOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "credits": {
+            "type": "integer",
+            "title": "Credits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "name",
+          "credits"
+        ],
+        "title": "SubjectOut"
+      },
+      "SubjectUpdate": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "credits": {
+            "type": "integer",
+            "title": "Credits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "credits"
+        ],
+        "title": "SubjectUpdate"
+      },
+      "TokenPair": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token"
+        ],
+        "title": "TokenPair"
+      },
+      "UserOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "professor"
+            ],
+            "title": "Role"
+          },
+          "smtp_configured": {
+            "type": "boolean",
+            "title": "Smtp Configured"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "full_name",
+          "role",
+          "smtp_configured",
+          "created_at"
+        ],
+        "title": "UserOut"
+      },
+      "UserSmtpOut": {
+        "properties": {
+          "smtp_email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Smtp Email"
+          },
+          "has_password": {
+            "type": "boolean",
+            "title": "Has Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "smtp_email",
+          "has_password"
+        ],
+        "title": "UserSmtpOut"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {
+
+            },
+            "tokenUrl": "/api/v1/auth/login"
+          }
+        }
+      }
+    }
+  }
+}
