@@ -2007,6 +2007,372 @@
         }
       }
     },
+    "/api/v1/stats/courses": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Get Course Stats",
+        "operationId": "get_course_stats_api_v1_stats_courses_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseStatsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stats/predict": {
+      "post": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Predict Grades",
+        "operationId": "predict_grades_api_v1_stats_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/stats/ai-model-configs": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "List Ai Model Configs",
+        "operationId": "list_ai_model_configs_api_v1_stats_ai_model_configs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AIModelConfigOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Ai Model Configs Api V1 Stats Ai Model Configs Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Create Ai Model Config",
+        "operationId": "create_ai_model_config_api_v1_stats_ai_model_configs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AIModelConfigCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIModelConfigOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/stats/ai-model-configs/{config_id}": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Get Ai Model Config",
+        "operationId": "get_ai_model_config_api_v1_stats_ai_model_configs__config_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "config_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Config Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIModelConfigOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Update Ai Model Config",
+        "operationId": "update_ai_model_config_api_v1_stats_ai_model_configs__config_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "config_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Config Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AIModelConfigUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AIModelConfigOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Delete Ai Model Config",
+        "operationId": "delete_ai_model_config_api_v1_stats_ai_model_configs__config_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "config_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Config Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stats/ai-model-configs/{config_id}/train": {
+      "post": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Train Ai Model",
+        "operationId": "train_ai_model_api_v1_stats_ai_model_configs__config_id__train_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "config_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Config Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
@@ -2028,6 +2394,188 @@
   },
   "components": {
     "schemas": {
+      "AIModelConfigCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "linear",
+              "dense_nn"
+            ],
+            "title": "Model Type"
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "final_grade",
+              "pass_probability"
+            ],
+            "title": "Target"
+          },
+          "hyperparams": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Hyperparams"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "model_type",
+          "target"
+        ],
+        "title": "AIModelConfigCreate"
+      },
+      "AIModelConfigOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "linear",
+              "dense_nn"
+            ],
+            "title": "Model Type"
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "final_grade",
+              "pass_probability"
+            ],
+            "title": "Target"
+          },
+          "hyperparams": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Hyperparams"
+          },
+          "is_trained": {
+            "type": "boolean",
+            "title": "Is Trained"
+          },
+          "trained_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trained At"
+          },
+          "created_by": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Created By"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "model_type",
+          "target",
+          "hyperparams",
+          "is_trained",
+          "trained_at",
+          "created_by",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AIModelConfigOut"
+      },
+      "AIModelConfigUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "hyperparams": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hyperparams"
+          }
+        },
+        "type": "object",
+        "title": "AIModelConfigUpdate"
+      },
       "AIPredictRequest": {
         "properties": {
           "features": {
@@ -2293,6 +2841,124 @@
         ],
         "title": "CourseOut"
       },
+      "CourseStatItem": {
+        "properties": {
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "subject_code": {
+            "type": "string",
+            "title": "Subject Code"
+          },
+          "subject_name": {
+            "type": "string",
+            "title": "Subject Name"
+          },
+          "term": {
+            "type": "string",
+            "title": "Term"
+          },
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          },
+          "professor_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Professor Id"
+          },
+          "total_enrolled": {
+            "type": "integer",
+            "title": "Total Enrolled"
+          },
+          "graded_count": {
+            "type": "integer",
+            "title": "Graded Count",
+            "description": "Estudiantes con nota final registrada"
+          },
+          "avg_final_grade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Final Grade",
+            "description": "Promedio en escala 0–100"
+          },
+          "avg_scale_grade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Scale Grade",
+            "description": "Promedio en escala 1–5"
+          },
+          "pass_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Rate",
+            "description": "Fracción de aprobados (escala \u003E= 3, nota \u003E= 50) entre los calificados (0–1)"
+          },
+          "grade_distribution": {
+            "$ref": "#/components/schemas/GradeDistribution"
+          },
+          "evaluations": {
+            "$ref": "#/components/schemas/EvaluationCoverage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course_id",
+          "subject_code",
+          "subject_name",
+          "term",
+          "year",
+          "professor_id",
+          "total_enrolled",
+          "graded_count",
+          "avg_final_grade",
+          "avg_scale_grade",
+          "pass_rate",
+          "grade_distribution",
+          "evaluations"
+        ],
+        "title": "CourseStatItem"
+      },
+      "CourseStatsResponse": {
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/StatsSummary"
+          },
+          "courses": {
+            "items": {
+              "$ref": "#/components/schemas/CourseStatItem"
+            },
+            "type": "array",
+            "title": "Courses"
+          }
+        },
+        "type": "object",
+        "required": [
+          "summary",
+          "courses"
+        ],
+        "title": "CourseStatsResponse"
+      },
       "CourseUpdate": {
         "properties": {
           "subject_id": {
@@ -2432,6 +3098,30 @@
           "student_id"
         ],
         "title": "EnrollmentUpdate"
+      },
+      "EvaluationCoverage": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "fully_graded": {
+            "type": "integer",
+            "title": "Fully Graded"
+          },
+          "completion_rate": {
+            "type": "number",
+            "title": "Completion Rate",
+            "description": "Porcentaje de notas de evaluación registradas (0–1)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "fully_graded",
+          "completion_rate"
+        ],
+        "title": "EvaluationCoverage"
       },
       "EvaluationCreate": {
         "properties": {
@@ -2723,6 +3413,51 @@
         ],
         "title": "ForgotPasswordRequest"
       },
+      "GradeDistribution": {
+        "properties": {
+          "five": {
+            "type": "integer",
+            "title": "Five",
+            "description": "Escala 5 — Nota \u003E= 85"
+          },
+          "four": {
+            "type": "integer",
+            "title": "Four",
+            "description": "Escala 4 — 70 \u003C= Nota \u003C 85"
+          },
+          "three": {
+            "type": "integer",
+            "title": "Three",
+            "description": "Escala 3 — 50 \u003C= Nota \u003C 70"
+          },
+          "two": {
+            "type": "integer",
+            "title": "Two",
+            "description": "Escala 2 — 30 \u003C= Nota \u003C 50"
+          },
+          "one": {
+            "type": "integer",
+            "title": "One",
+            "description": "Escala 1 — Nota \u003C 30"
+          },
+          "pending": {
+            "type": "integer",
+            "title": "Pending",
+            "description": "Sin nota final registrada"
+          }
+        },
+        "type": "object",
+        "required": [
+          "five",
+          "four",
+          "three",
+          "two",
+          "one",
+          "pending"
+        ],
+        "title": "GradeDistribution",
+        "description": "Distribución usando la escala 1–5 (calculada a partir de notas 0–100)."
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -2780,6 +3515,152 @@
           "message"
         ],
         "title": "MessageResponse"
+      },
+      "PredictRequest": {
+        "properties": {
+          "model_config_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Config Id"
+          },
+          "course_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Course Id"
+          },
+          "enrollment_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enrollment Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_config_id",
+          "course_id"
+        ],
+        "title": "PredictRequest"
+      },
+      "PredictResponse": {
+        "properties": {
+          "model_config_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Config Id"
+          },
+          "model_name": {
+            "type": "string",
+            "title": "Model Name"
+          },
+          "model_type": {
+            "type": "string",
+            "title": "Model Type"
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "final_grade",
+              "pass_probability"
+            ],
+            "title": "Target"
+          },
+          "predictions": {
+            "items": {
+              "$ref": "#/components/schemas/PredictionItem"
+            },
+            "type": "array",
+            "title": "Predictions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_config_id",
+          "model_name",
+          "model_type",
+          "target",
+          "predictions"
+        ],
+        "title": "PredictResponse"
+      },
+      "PredictionItem": {
+        "properties": {
+          "enrollment_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Enrollment Id"
+          },
+          "student_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Student Id"
+          },
+          "student_card": {
+            "type": "string",
+            "title": "Student Card"
+          },
+          "current_partial_grade": {
+            "type": "number",
+            "title": "Current Partial Grade",
+            "description": "Suma ponderada actual (0–100)"
+          },
+          "graded_pct_coverage": {
+            "type": "number",
+            "title": "Graded Pct Coverage",
+            "description": "Porcentaje de la nota total ya evaluado (0–100)"
+          },
+          "predicted_final_grade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predicted Final Grade",
+            "description": "Nota predicha en escala 0–100. Solo si target=final_grade"
+          },
+          "predicted_scale_grade": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predicted Scale Grade",
+            "description": "Nota predicha en escala 1–5. Solo si target=final_grade"
+          },
+          "pass_probability": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Probability",
+            "description": "Probabilidad de aprobar (0–1). Solo si target=pass_probability"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enrollment_id",
+          "student_id",
+          "student_card",
+          "current_partial_grade",
+          "graded_pct_coverage"
+        ],
+        "title": "PredictionItem"
       },
       "RefreshRequest": {
         "properties": {
@@ -2906,6 +3787,80 @@
           "smtp_password"
         ],
         "title": "SmtpCredentialsUpdate"
+      },
+      "StatsSummary": {
+        "properties": {
+          "total_courses": {
+            "type": "integer",
+            "title": "Total Courses"
+          },
+          "total_enrolled": {
+            "type": "integer",
+            "title": "Total Enrolled",
+            "description": "Total de inscripciones (puede repetir estudiantes entre cursos)"
+          },
+          "graded_students": {
+            "type": "integer",
+            "title": "Graded Students",
+            "description": "Inscripciones con nota final registrada"
+          },
+          "pending_students": {
+            "type": "integer",
+            "title": "Pending Students",
+            "description": "Inscripciones sin nota final"
+          },
+          "global_avg_grade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Global Avg Grade",
+            "description": "Promedio global en escala 0–100"
+          },
+          "global_avg_scale_grade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Global Avg Scale Grade",
+            "description": "Promedio global en escala 1–5"
+          },
+          "global_pass_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Global Pass Rate",
+            "description": "Fracción de aprobados (escala \u003E= 3) sobre calificados"
+          },
+          "overall_grade_distribution": {
+            "$ref": "#/components/schemas/GradeDistribution"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_courses",
+          "total_enrolled",
+          "graded_students",
+          "pending_students",
+          "global_avg_grade",
+          "global_avg_scale_grade",
+          "global_pass_rate",
+          "overall_grade_distribution"
+        ],
+        "title": "StatsSummary"
       },
       "StudentCreate": {
         "properties": {
@@ -3112,6 +4067,48 @@
           "refresh_token"
         ],
         "title": "TokenPair"
+      },
+      "TrainResponse": {
+        "properties": {
+          "config_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Config Id"
+          },
+          "is_trained": {
+            "type": "boolean",
+            "title": "Is Trained"
+          },
+          "trained_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trained At"
+          },
+          "samples_used": {
+            "type": "integer",
+            "title": "Samples Used"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "config_id",
+          "is_trained",
+          "trained_at",
+          "samples_used",
+          "message"
+        ],
+        "title": "TrainResponse"
       },
       "UserOut": {
         "properties": {
