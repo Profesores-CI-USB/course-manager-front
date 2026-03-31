@@ -44,3 +44,50 @@ export interface StatsResponse {
   summary: StatsSummary;
   courses: CourseStats[];
 }
+
+// AI Model Configs
+export type ModelType = "linear" | "dense_nn";
+export type ModelTarget = "final_grade" | "pass_probability";
+
+export interface ModelHyperparams {
+  max_features?: number;
+  epochs?: number;
+  learning_rate?: number;
+  hidden_units?: number[];
+}
+
+export interface AIModelConfigOut {
+  id: string;
+  name: string;
+  description: string | null;
+  model_type: ModelType;
+  target: ModelTarget;
+  hyperparams: ModelHyperparams;
+  is_trained: boolean;
+  trained_at: string | null;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AIModelConfigCreate {
+  name: string;
+  description?: string;
+  model_type: ModelType;
+  target: ModelTarget;
+  hyperparams: ModelHyperparams;
+}
+
+export interface AIModelConfigUpdate {
+  name?: string;
+  description?: string;
+  hyperparams?: ModelHyperparams;
+}
+
+export interface TrainResult {
+  config_id: string;
+  is_trained: boolean;
+  trained_at: string;
+  samples_used: number;
+  message: string;
+}

@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  Brain,
   ClipboardList,
   Gauge,
   GraduationCap,
@@ -56,5 +57,10 @@ export const navigations: Navigation[] = [
     icon: NotepadText,
     name: "Calificaciones",
     href: "/grades",
+  },
+  {
+    icon: Brain,
+    name: "Modelos IA",
+    href: "/ai-models",
   },
 ];

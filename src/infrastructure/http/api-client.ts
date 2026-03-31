@@ -73,4 +73,7 @@ export const apiClient = {
       token,
       headers: {},
     }),
+
+  delete: <T>(path: string, token?: string) =>
+    request<T>(path, { method: "DELETE", token }),
 };
