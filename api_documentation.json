@@ -18,9 +18,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           }
@@ -68,7 +66,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -177,9 +175,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           },
@@ -319,7 +315,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -345,7 +341,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -371,7 +367,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       },
@@ -415,7 +411,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -461,7 +457,53 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/mail/test": {
+      "post": {
+        "tags": [
+          "mail"
+        ],
+        "summary": "Test Mail",
+        "operationId": "test_mail_api_v1_mail_test_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestMailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
           }
         ]
       }
@@ -516,7 +558,7 @@
         "operationId": "list_subjects_api_v1_academic_subjects_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -631,7 +673,7 @@
         "operationId": "create_subject_api_v1_academic_subjects_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "requestBody": {
@@ -677,7 +719,7 @@
         "operationId": "list_courses_api_v1_academic_courses_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -826,7 +868,7 @@
         "operationId": "create_course_api_v1_academic_courses_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "requestBody": {
@@ -872,7 +914,7 @@
         "operationId": "list_students_api_v1_academic_students_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1020,7 +1062,7 @@
         "operationId": "create_student_api_v1_academic_students_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "requestBody": {
@@ -1066,7 +1108,7 @@
         "operationId": "list_evaluations_api_v1_academic_evaluations_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1216,7 +1258,7 @@
         "operationId": "create_evaluation_api_v1_academic_evaluations_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "requestBody": {
@@ -1262,7 +1304,7 @@
         "operationId": "list_enrollments_api_v1_academic_enrollments_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1379,7 +1421,7 @@
         "operationId": "create_enrollment_api_v1_academic_enrollments_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "requestBody": {
@@ -1425,7 +1467,7 @@
         "operationId": "list_evaluation_grades_api_v1_academic_evaluation_grades_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1576,7 +1618,7 @@
         "operationId": "create_evaluation_grade_api_v1_academic_evaluation_grades_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "requestBody": {
@@ -1654,7 +1696,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -1668,7 +1710,7 @@
         "operationId": "update_subject_api_v1_academic_subjects__subject_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1726,7 +1768,7 @@
         "operationId": "update_course_api_v1_academic_courses__course_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1784,7 +1826,7 @@
         "operationId": "update_student_api_v1_academic_students__student_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1842,7 +1884,7 @@
         "operationId": "update_evaluation_api_v1_academic_evaluations__evaluation_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1900,7 +1942,7 @@
         "operationId": "update_enrollment_api_v1_academic_enrollments__enrollment_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -1958,7 +2000,7 @@
         "operationId": "update_evaluation_grade_api_v1_academic_evaluation_grades__evaluation_grade_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -2016,7 +2058,7 @@
         "operationId": "get_course_stats_api_v1_stats_courses_get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -2103,7 +2145,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -2133,7 +2175,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       },
@@ -2177,7 +2219,7 @@
         },
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ]
       }
@@ -2191,7 +2233,7 @@
         "operationId": "get_ai_model_config_api_v1_stats_ai_model_configs__config_id__get",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -2237,7 +2279,7 @@
         "operationId": "update_ai_model_config_api_v1_stats_ai_model_configs__config_id__put",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -2293,7 +2335,7 @@
         "operationId": "delete_ai_model_config_api_v1_stats_ai_model_configs__config_id__delete",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -2334,7 +2376,7 @@
         "operationId": "train_ai_model_api_v1_stats_ai_model_configs__config_id__train_post",
         "security": [
           {
-            "OAuth2PasswordBearer": []
+            "HTTPBearer": []
           }
         ],
         "parameters": [
@@ -2382,9 +2424,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-
-                }
+                "schema": {}
               }
             }
           }
@@ -2912,7 +2952,7 @@
               }
             ],
             "title": "Pass Rate",
-            "description": "Fracción de aprobados (escala \u003E= 3, nota \u003E= 50) entre los calificados (0–1)"
+            "description": "Fracción de aprobados (escala >= 3, nota >= 50) entre los calificados (0–1)"
           },
           "grade_distribution": {
             "$ref": "#/components/schemas/GradeDistribution"
@@ -3078,8 +3118,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100,
-                "minimum": 0
+                "maximum": 100.0,
+                "minimum": 0.0
               },
               {
                 "type": "string",
@@ -3138,8 +3178,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100,
-                "minimum": 0
+                "maximum": 100.0,
+                "minimum": 0.0
               },
               {
                 "type": "string",
@@ -3193,7 +3233,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0.0
               },
               {
                 "type": "string",
@@ -3267,7 +3307,7 @@
             "anyOf": [
               {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0.0
               },
               {
                 "type": "string",
@@ -3360,8 +3400,8 @@
             "anyOf": [
               {
                 "type": "number",
-                "maximum": 100,
-                "minimum": 0
+                "maximum": 100.0,
+                "minimum": 0.0
               },
               {
                 "type": "string",
@@ -3418,27 +3458,27 @@
           "five": {
             "type": "integer",
             "title": "Five",
-            "description": "Escala 5 — Nota \u003E= 85"
+            "description": "Escala 5 — Nota >= 85"
           },
           "four": {
             "type": "integer",
             "title": "Four",
-            "description": "Escala 4 — 70 \u003C= Nota \u003C 85"
+            "description": "Escala 4 — 70 <= Nota < 85"
           },
           "three": {
             "type": "integer",
             "title": "Three",
-            "description": "Escala 3 — 50 \u003C= Nota \u003C 70"
+            "description": "Escala 3 — 50 <= Nota < 70"
           },
           "two": {
             "type": "integer",
             "title": "Two",
-            "description": "Escala 2 — 30 \u003C= Nota \u003C 50"
+            "description": "Escala 2 — 30 <= Nota < 50"
           },
           "one": {
             "type": "integer",
             "title": "One",
-            "description": "Escala 1 — Nota \u003C 30"
+            "description": "Escala 1 — Nota < 30"
           },
           "pending": {
             "type": "integer",
@@ -3746,6 +3786,15 @@
           "body": {
             "type": "string",
             "title": "Body"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "html"
+            ],
+            "title": "Content Type",
+            "default": "markdown"
           }
         },
         "type": "object",
@@ -3843,7 +3892,7 @@
               }
             ],
             "title": "Global Pass Rate",
-            "description": "Fracción de aprobados (escala \u003E= 3) sobre calificados"
+            "description": "Fracción de aprobados (escala >= 3) sobre calificados"
           },
           "overall_grade_distribution": {
             "$ref": "#/components/schemas/GradeDistribution"
@@ -4045,6 +4094,39 @@
         ],
         "title": "SubjectUpdate"
       },
+      "TestMailRequest": {
+        "properties": {
+          "to_email": {
+            "type": "string",
+            "format": "email",
+            "title": "To Email"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "html"
+            ],
+            "title": "Content Type",
+            "default": "markdown"
+          }
+        },
+        "type": "object",
+        "required": [
+          "to_email",
+          "subject",
+          "body"
+        ],
+        "title": "TestMailRequest"
+      },
       "TokenPair": {
         "properties": {
           "access_token": {
@@ -4230,16 +4312,9 @@
       }
     },
     "securitySchemes": {
-      "OAuth2PasswordBearer": {
-        "type": "oauth2",
-        "flows": {
-          "password": {
-            "scopes": {
-
-            },
-            "tokenUrl": "/api/v1/auth/login"
-          }
-        }
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
